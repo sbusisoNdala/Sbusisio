@@ -1,98 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Be My Valentine</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #fce8d5;
-    }
-    button {
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 50px; /* Make it circular */
-      background-color: #ff6b6b; /* Button color */
-      color: #fff; /* Text color */
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    }
-    button:hover {
-      background-color: #d63031; /* Hover color */
-      transform: scale(1.05); /* Increase size on hover */
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add box shadow on hover */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-    #container {
-      text-align: center;
-    }
+        li {
+            margin: 10px 0;
+        }
 
-    #teddy {
-      width: 200px;
-      animation: expandShrink 2s infinite alternate;
-    }
-    @keyframes expandShrink {
-      0% {
-        transform: scale(1);
-      }
-      100% {
-        transform: scale(1.2);
-      }
-    }
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
 
-    #flowers {
-      display: none;
-      width: 200px;
-    }
-  </style>
+        .pointing-dots {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #333;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <div id="container">
-    <img id="teddy" src="https://images.pexels.com/photos/6708774/pexels-photo-6708774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Cute Teddy">
-    <h1>Can you be my Valentine?</h1>
-    <button onclick="checkValentine()">Yes</button>
-    <button type="button" onclick="rejectValentine()">No</button>
-    <p id="tryAgain" style="color: red; display: none;">Try again!</p>
-  </div>
 
-  <script>
-    function checkValentine() {
-      document.body.style.height = "100%";
-      document.getElementById("container").style.position = "fixed";
-      document.getElementById("container").style.top = "0";
-      document.getElementById("container").style.left = "0";
-      document.getElementById("container").style.width = "100%";
-      document.getElementById("container").style.height = "100%";
-      document.getElementById("container").style.backgroundColor = "#fce8d5";
-      document.getElementById("container").innerHTML = `
-    <iframe src="https://images.pexels.com/photos/6709147/pexels-photo-6709147.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-    <p><h1 style='color:red;'>Thank You. I can not wait to hug you</h1></p>`;
-    }
-    function shiftNoButtonRandomly() {
-      var noButton = document.querySelector("button[type='button']");
-      var screenWidth = window.innerWidth;
-      var screenHeight = window.innerHeight;
+<h2>My To-Do List</h2>
 
-      var randomX = Math.floor(Math.random() * (screenWidth - noButton.clientWidth));
-      var randomY = Math.floor(Math.random() * (screenHeight - noButton.clientHeight));
+<input type="text" id="taskInput" placeholder="New task...">
+<button onclick="addTask()">Add</button>
 
-      noButton.style.position = "absolute";
-      noButton.style.left = randomX + "px";
-      noButton.style.top = randomY + "px";
+<ul id="taskList"></ul>
+
+<script>
+    function addTask() {
+        var taskInput = document.getElementById("taskInput");
+        var taskList = document.getElementById("taskList");
+
+        if (taskInput.value.trim() !== "") {
+            var listItem = document.createElement("li");
+            listItem.innerHTML = '<span class="pointing-dots" onclick="toggleTask(this)"></span>' + taskInput.value;
+            taskList.appendChild(listItem);
+            taskInput.value = "";
+        }
     }
 
-    function rejectValentine() {
-      document.getElementById("tryAgain").style.display = "block";
-      shiftNoButtonRandomly(); // Corrected function name
+    function toggleTask(span) {
+        var listItem = span.parentNode;
+        listItem.classList.toggle("completed");
     }
+</script>
 
-
-  </script>
 </body>
 </html>
